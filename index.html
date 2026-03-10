@@ -91,6 +91,16 @@ text-decoration:none;
 font-weight:600;
 }
 
+button{
+font-size:16px;
+padding:10px 16px;
+border:none;
+border-radius:12px;
+background:#2b77d1;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
 
 /* MAP */
 
@@ -289,7 +299,14 @@ opacity:0;
 transform:scale(1);
 }
 }
-
+/* 拡大防止*/
+input{
+font-size:16px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ccc;
+width:200px;
+}
 
 </style>
 
@@ -550,7 +567,7 @@ href="https://www.google.com/maps/dir/玉前神社/天津神明宮/誕生寺/鴨
 パスワードを入力してください
 </p>
 
-<input type="password" id="pass" placeholder="パスワード">
+<input type="password" id="pass" placeholder="パスワード" style="text-align:center;">
 
 <br><br>
 
@@ -692,4 +709,5 @@ document.querySelector(".map iframe").src =
 
 </body>
 </html>
+
 
