@@ -37,27 +37,20 @@ display:block;
 
 /* 表紙 */
 
-.hero{
-background:linear-gradient(135deg,#4da3ff,#7fd0ff,#b7e4ff);
-height:40vh;
-border-radius:0 0 40px 40px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-color:white;
-text-align:center;
-}
-
 .hero h1{
 font-size:26px;
 line-height:1.4;
 margin:0;
+color:black;
+font-weight:900;
+text-shadow:0 2px 6px rgba(255,255,255,0.7);
 }
 
 .hero p{
 margin-top:12px;
 opacity:0.9;
+color:black;
+font-weight:600;
 }
 
 
@@ -73,7 +66,6 @@ margin-top:20px;
 
 .card h3{
 margin-top:0;
-color:#4b78a8;
 }
 
 .schedule{
@@ -108,6 +100,41 @@ height:420px;
 border:none;
 }
 
+/* 表紙上の写真 */
+
+.hero{
+position:relative;
+height:40vh;
+border-radius:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:
+    linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)),
+    url("https://thumb.ac-illust.com/f2/f2001a82e29eaa00d43114de81249a67_t.jpeg");
+  background-size:cover;
+  background-position:center;
+  filter:blur(2px);
+  transform:scale(1.1);
+}
+
+.hero h1,
+.hero p{
+position:relative;
+z-index:1;
+}
 
 /* iPhone風ナビ */
 
@@ -129,10 +156,82 @@ border:none;
 font-size:20px;
 }
 
+.nav button.active {
+  color:#2b77d1;   /* 青にする */
+  font-weight:700; /* 太字にする */
+}
+
 .nav span{
 display:block;
 font-size:10px;
 }
+
+/* メッセージふわ表示 */
+.secretShow{
+animation:secretFade 1.2s ease;
+}
+@keyframes secretFade{
+0%{opacity:0; transform:translateY(20px);}
+100%{opacity:1; transform:translateY(0);}
+}
+
+/* 紙吹雪 */
+.confetti{
+position:fixed;
+top:-10px;
+width:10px;
+height:10px;
+z-index:999;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(720deg);
+opacity:0;
+}
+}
+
+
+/* ページごとの見出し色 */
+#p1 h1, #p1 p { color: #000; }       /* 表紙は黒 */
+#p2 h3 { color: #4b78a8; }           /* 日程・目的は青 */
+#p3 h3 { color: #4caf50; }           /* 神社は緑 */
+#p4 h3 { color: #ff9800; }           /* MAPはオレンジ */
+#p5 h3 { color: #e91e63; }           /* 最後のページはピンク */
+
+
+/* MAP神社ボタン */
+
+.mapButtons{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+margin-bottom:14px;
+}
+
+.mapButtons button{
+background:#ffffff;
+border:1px solid #e4e4e4;
+border-radius:20px;
+padding:8px 14px;
+font-size:14px;
+font-weight:600;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:all .2s;
+}
+
+.mapButtons button:hover{
+background:#f5f9ff;
+border-color:#2b77d1;
+color:#2b77d1;
+}
+
+.mapButtons button:active{
+transform:scale(0.92);
+}
+
 
 </style>
 
@@ -321,11 +420,15 @@ font-size:10px;
 <h3>御朱印めぐりMAP</h3>
 
 <div class="map">
-
+<div class="mapButtons">
+<button onclick="changeMap('上総國一宮 玉前神社')">玉前神社</button>
+<button onclick="changeMap('天津神明宮 千葉県鴨川市')">天津神明宮</button>
+<button onclick="changeMap('誕生寺 千葉県鴨川市')">誕生寺</button>
+<button onclick="changeMap('安房神社 千葉県館山市')">安房神社</button>
+</div>
 <iframe
 src="https://www.google.com/maps?q=玉前神社&output=embed">
 </iframe>
-
 </div>
 
 <br>
@@ -372,8 +475,8 @@ href="https://www.google.com/maps/dir/玉前神社/天津神明宮/誕生寺/鴨
 
 </div>
 
-</div>
 
+<!-- メッセージ開封後 -->
 
 
 <div class="card" id="secret" style="display:none">
@@ -381,25 +484,25 @@ href="https://www.google.com/maps/dir/玉前神社/天津神明宮/誕生寺/鴨
 <h3>ママへ</h3>
 
 <p>
-いつもありがとう。
+いつもありがとう。<br>
 
 なかなか二人だけで旅行する
 機会もなかったけど、
 
 こうして一緒に
 誕生日旅行に行けることを
-嬉しく思っています。
+嬉しく思っています。<br>
 
 この旅が
 楽しい思い出になれば
-嬉しいです。
+嬉しいです。<br>
 
 瑛成
 </p>
 
 </div>
 
-
+</div>
 
 
 
@@ -415,21 +518,25 @@ href="https://www.google.com/maps/dir/玉前神社/天津神明宮/誕生寺/鴨
 </div>
 
 
-
 <script>
 
 let current=1
 
 function go(n){
+ let pages = document.querySelectorAll(".page")
+  let buttons = document.querySelectorAll(".nav button")
 
-let pages=document.querySelectorAll(".page")
+  // 全ページと全ボタンから active を削除
+  pages.forEach(p => p.classList.remove("active"))
+  buttons.forEach(b => b.classList.remove("active"))
 
-pages.forEach(p=>p.classList.remove("active"))
+  // 選択ページを表示
+  document.getElementById("p"+n).classList.add("active")
 
-document.getElementById("p"+n).classList.add("active")
+  // 現在ページのナビボタンに active を付与
+  buttons[n-1].classList.add("active")
 
-current=n
-
+  current = n
 }
 
 let startX
@@ -452,13 +559,39 @@ function checkPass(){
 let pass=document.getElementById("pass").value
 
 if(pass==="0315"){
-document.getElementById("secret").style.display="block"
+let secret=document.getElementById("secret")
+secret.style.display="block"
+secret.classList.add("secretShow")
+secret.scrollIntoView({behavior:"smooth"})
+confetti()
 document.getElementById("error").innerText=""
 }else{
 document.getElementById("error").innerText="パスワードが違います"
 }
 
 }
+
+function confetti(){
+for(let i=0;i<60;i++){
+let c=document.createElement("div")
+c.className="confetti"
+c.style.left=Math.random()*100+"vw"
+c.style.background=
+["#ff6b6b","#ffd93d","#6bcB77","#4d96ff","#ff9f1c"][Math.floor(Math.random()*5)]
+c.style.animationDuration=2+Math.random()*2+"s"
+document.body.appendChild(c)
+setTimeout(()=>c.remove(),4000)
+}
+}
+
+/* マップの切り替えできる */
+function changeMap(place){
+
+document.querySelector(".map iframe").src =
+"https://www.google.com/maps?q=" + place + "&output=embed"
+
+}
+
 
 </script>
 
