@@ -135,7 +135,7 @@ background:
 linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url("https://thumb.ac-illust.com/f2/f2001a82e29eaa00d43114de81249a67_t.jpeg");
 background-size:cover;
 background-position:center;
-filter:blur(2px);
+blur(1px);
 transform:scale(1.1);
 }
 
@@ -306,6 +306,16 @@ border:1px solid #ccc;
 width:200px;
 }
 
+/* カウントダウンデザイン */
+#countdown{
+margin-top:8px;
+font-weight:700;
+font-size:16px;
+background:rgba(255,255,255,0.6);
+padding:4px 12px;
+border-radius:20px;
+}
+
 </style>
 
 </head>
@@ -325,7 +335,7 @@ width:200px;
 </h1>
 
 <p>2026.3.15 – 3.16</p>
-
+<p id="countdown"></p>
 </div>
 
 <div class="card edit">
@@ -707,11 +717,27 @@ setTimeout(()=>c.remove(),4000)
 /* マップの切り替えできる */
 function changeMap(place){
 
-document.querySelector(".map iframe").src =
+document.querySelector("#p4 iframe").src =
 "https://www.google.com/maps?q=" + place + "&output=embed"
 
 }
 
+function updateCountdown(){
+let tripDate = new Date("2026-03-15")
+let today = new Date()
+let diff = tripDate - today
+let days = Math.ceil(diff / (1000 * 60 * 60 * 24))
+let text = ""
+if(days > 0){
+text = "旅行まであと " + days + " 日 ✈️"
+}else if(days === 0){
+text = "✨今日は旅行の日✨"
+}else{
+text = "楽しい旅行の思い出"
+}
+document.getElementById("countdown").innerText = text
+}
+updateCountdown()
 
 </script>
 
@@ -721,6 +747,7 @@ document.querySelector(".map iframe").src =
 
 </body>
 </html>
+
 
 
 
