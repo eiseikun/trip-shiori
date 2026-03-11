@@ -726,15 +726,15 @@ document.querySelector("#p4 iframe").src =
 }
 
 function updateCountdown(){
-let tripDate = new Date("2026-03-15")
-let today = new Date()
-let diff = tripDate - today
-let days = Math.ceil(diff / (1000 * 60 * 60 * 24))
+let tripDate = new Date("2026-03-15T07:30:00")
+let now = new Date()
+let diff = tripDate - now
+let days = Math.floor(diff / (1000 * 60 * 60 * 24))
 let hours = Math.floor((diff / (1000*60*60)) % 24)
 let text = ""
-if(days > 0){
+if(diff > 0){
 text = "旅行まであと " + days + "日 " + hours + "時間 ✈️"
-}else if(days === 0){
+}else if(diff > -86400000){
 text = "✨今日は旅行の日✨"
 }else{
 text = "楽しい旅行の思い出"
@@ -742,6 +742,7 @@ text = "楽しい旅行の思い出"
 document.getElementById("countdown").innerText = text
 }
 updateCountdown()
+setInterval(updateCountdown,60000)
 
 </script>
 
@@ -751,6 +752,7 @@ updateCountdown()
 
 </body>
 </html>
+
 
 
 
