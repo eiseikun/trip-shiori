@@ -17,6 +17,8 @@ margin:0;
 font-family:-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN",sans-serif;
 background:#eef4fb;
 color:#333;
+overscroll-behavior: none;
+touch-action: manipulation;
 }
 
 .page{
@@ -138,7 +140,7 @@ background:
 linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url("https://thumb.ac-illust.com/f2/f2001a82e29eaa00d43114de81249a67_t.jpeg");
 background-size:cover;
 background-position:center;
-blur(1px);
+filter: blur(1px);
 transform:scale(1.1);
 }
 
@@ -384,8 +386,8 @@ border-radius:20px;
 
 <b>1日目</b><br>
 
-7:30 出発<br>
-↓約2時間<br>
+7:00 出発<br>
+↓約2時間半<br>
 
 10:00  
 <a href="https://www.google.com/maps/dir/?api=1&destination=玉前神社" target="_blank">玉前神社</a><br>
@@ -409,11 +411,13 @@ border-radius:20px;
 <b>2日目</b><br>
 
 10:00 ホテル出発<br>
-↓約1時間<br>
+↓約1時間半<br>
 
-11:00  
-<a href="https://www.google.com/maps/dir/?api=1&destination=安房神社" target="_blank">安房神社</a>
-
+11:30 
+<a href="https://www.google.com/maps/dir/?api=1&destination=安房神社" target="_blank">安房神社</a><br>
+↓<br>
+のんびり寄り道しながら帰宅 🚗<br>
+道の駅や気になる場所を見つけたら立ち寄ろう
 </div>
 
 </div>
@@ -537,10 +541,11 @@ border-radius:20px;
 
 <div class="map">
 <div class="mapButtons">
-<button onclick="changeMap('上総國一宮 玉前神社')">玉前神社</button>
-<button onclick="changeMap('天津神明宮 千葉県鴨川市')">天津神明宮</button>
-<button onclick="changeMap('誕生寺 千葉県鴨川市')">誕生寺</button>
-<button onclick="changeMap('安房神社 千葉県館山市')">安房神社</button>
+
+<button onclick="goRoute(0,'玉前神社')">玉前神社</button>
+<button onclick="goRoute(1,'天津神明宮')">天津神明宮</button>
+<button onclick="goRoute(2,'誕生寺')">誕生寺</button>
+<button onclick="goRoute(3,'安房神社')">安房神社</button>
 </div>
 <iframe
 src="https://www.google.com/maps?q=玉前神社&output=embed">
@@ -550,9 +555,19 @@ src="https://www.google.com/maps?q=玉前神社&output=embed">
 <br>
 
 <a target="_blank"
-href="https://www.google.com/maps/dir/玉前神社/天津神明宮/誕生寺/鴨川グランドホテル/安房神社">
+href="https://www.google.com/maps/dir/?api=1&destination=安房神社&waypoints=玉前神社|天津神明宮|誕生寺|鴨川グランドホテル&travelmode=driving">
 
 ▶ 旅行ルートを見る
+<br><br>
+
+<h3>御朱印チェック</h3>
+
+<label><input type="checkbox" id="g1" onchange="saveChecks()"> 玉前神社</label><br>
+<label><input type="checkbox" id="g2" onchange="saveChecks()"> 天津神明宮</label><br>
+<label><input type="checkbox" id="g3" onchange="saveChecks()"> 誕生寺</label><br>
+<label><input type="checkbox" id="g4" onchange="saveChecks()"> 安房神社</label>
+
+
 
 </a>
 
@@ -726,7 +741,7 @@ document.querySelector("#p4 iframe").src =
 }
 /* 時間表示 */
 function updateCountdown(){
-let tripDate = new Date("2026-03-15T07:30:00")
+let tripDate = new Date("2026-03-15T07:00:00")
 let endDate = new Date("2026-03-16T23:59:00")
 let now = new Date()
 let diff = tripDate - now
@@ -745,7 +760,61 @@ document.getElementById("countdown").innerText = text
 updateCountdown()
 setInterval(updateCountdown,60000)
 
+/* マップをチェックリストと連携 */
+function goRoute(index,destination){
+let places=[
+"玉前神社",
+"天津神明宮",
+"誕生寺",
+"安房神社"
+]
+let checks=[
+document.getElementById("g1").checked,
+document.getElementById("g2").checked,
+document.getElementById("g3").checked,
+document.getElementById("g4").checked
+]
+let start="現在地"
+for(let i=0;i<checks.length;i++){
+if(checks[i]){
+start=places[i]
+}
+}
+
+/* 誕生寺チェック → 安房神社はホテル出発 */
+if(destination==="安房神社" && checks[2]){
+start="鴨川グランドホテル"
+}
+let url="https://www.google.com/maps/dir/?api=1&origin="+start+"&destination="+destination+"&travelmode=driving"
+window.open(url,"_blank")
+}
+
+/* チェックボックスの保存機能 */
+function saveChecks(){
+let checks=[
+document.getElementById("g1").checked,
+document.getElementById("g2").checked,
+document.getElementById("g3").checked,
+document.getElementById("g4").checked
+]
+localStorage.setItem("goshuinChecks",JSON.stringify(checks))
+}
+
+function loadChecks(){
+let saved=localStorage.getItem("goshuinChecks")
+if(saved){
+let checks=JSON.parse(saved)
+document.getElementById("g1").checked=checks[0]
+document.getElementById("g2").checked=checks[1]
+document.getElementById("g3").checked=checks[2]
+document.getElementById("g4").checked=checks[3]
+}
+}
+loadChecks()
+
+
 </script>
+
 
 <div id="birthday" class="birthday">
 🎉お誕生日おめでとう🎉
@@ -753,20 +822,4 @@ setInterval(updateCountdown,60000)
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
