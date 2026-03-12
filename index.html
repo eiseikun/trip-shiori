@@ -12,22 +12,26 @@
 
 <style>
 
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN",sans-serif;
-background:#eef4fb;
-color:#333;
-overscroll-behavior: none;
-touch-action: manipulation;
+html, body {
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN",sans-serif;
+  background:#eef4fb;
+  color:#333;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling:
+  touch-action: manipulation;
+  height: 100%;
 }
 
-.page{
-display:none;
-max-width:520px;
-margin:auto;
-animation:fade .4s;
-padding-bottom:90px;
+.page {
+  display:none;
+  max-width:520px;
+  margin:auto;
+  animation:fade .4s;
+  padding-bottom:90px;
+  overscroll-behavior: none;
 }
+
 
 @keyframes fade{
 from{opacity:0;transform:translateY(10px)}
@@ -822,4 +826,3 @@ loadChecks()
 
 </body>
 </html>
-
