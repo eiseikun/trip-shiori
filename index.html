@@ -307,6 +307,16 @@ opacity:0;
 transform:scale(1);
 }
 }
+/* ポンポン光らせる*/
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.15);}
+100%{transform:scale(1);}
+}
+
+
+
+
 /* 拡大防止*/
 input{
 font-size:16px;
@@ -325,6 +335,10 @@ background:rgba(255,255,255,0.6);
 padding:4px 12px;
 border-radius:20px;
 }
+
+
+
+
 
 </style>
 
@@ -642,7 +656,7 @@ href="https://www.google.com/maps/dir/?api=1&destination=安房神社&waypoints=
 <button onclick="go(2)">📅<span>日程</span></button>
 <button onclick="go(3)">⛩<span>神社</span></button>
 <button onclick="go(4)">🗺<span>MAP</span></button>
-<button onclick="go(5)">💌<span>最後に</span></button>
+<button id="secretNav" onclick="go(5)">💌<span>最後に</span></button>
 
 </div>
 
@@ -815,6 +829,39 @@ document.getElementById("g4").checked=checks[3]
 }
 }
 loadChecks()
+
+
+/* 最後のページを旅行当日19時まで非表示 */
+
+function controlSecretPage(){
+let tripDate = new Date("2026-03-13T10:30:00")/* とりあいず今日の10;30 */
+let now = new Date()
+if(now < tripDate){
+document.getElementById("secretNav").style.display="none"
+document.getElementById("p5").style.display="none"
+}
+}
+controlSecretPage()
+
+
+/* メッセージ解禁通知 */
+
+function messageNotification(){
+let unlock = new Date("2026-03-13T10:30:00")/* とりあいず今日の10;30 */
+let now = new Date()
+if(now >= unlock){
+let btn = document.getElementById("secretNav")
+if(btn && !btn.classList.contains("notified")){
+btn.innerHTML = "💌<span>メッセージ</span>"
+btn.style.animation = "pulse 1s infinite"
+btn.classList.add("notified")
+}
+}
+}
+setInterval(messageNotification,1000)
+messageNotification()
+
+
 
 
 </script>
