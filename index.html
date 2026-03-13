@@ -834,7 +834,7 @@ loadChecks()
 /* 最後のページを旅行当日19時まで非表示 */
 
 function controlSecretPage(){
-let tripDate = new Date("2026-03-13T14:00:00")/* 14時 */
+let tripDate = new Date("2026-03-15T20:00:00")/* 当日20時 */
 let now = new Date()
 if(now < tripDate){
 document.getElementById("secretNav").style.display="none"
@@ -847,7 +847,7 @@ controlSecretPage()
 /* メッセージ解禁通知 */
 
 function messageNotification(){
-let unlock = new Date("2026-03-13T14:00:00")/* 14時 */
+let unlock = new Date("2026-03-15T20:00:00")/* 当日20時 */
 let now = new Date()
 if(now >= unlock){
 let btn = document.getElementById("secretNav")
@@ -872,3 +872,4 @@ messageNotification()
 
 </body>
 </html>
+
